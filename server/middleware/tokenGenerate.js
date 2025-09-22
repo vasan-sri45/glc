@@ -141,7 +141,7 @@ const generateToken = (res, userId, role) => {
   res.cookie('token', token, {
     httpOnly: true,
     sameSite: isProd ? 'none' : 'lax',
-    secure:   isProd,
+    secure:   true,
      path: '/',
     maxAge: expiresInSeconds * 1000
   });
