@@ -21,7 +21,7 @@ const Port = process.env.PORT || 4500;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 
 const ORIGINS = [process.env.CLIENT_ORIGIN, 'http://localhost:5173'].filter(Boolean); // exact origins [web:23]
@@ -48,9 +48,9 @@ app.use('/api/message',messageRouter);
 app.use('/api/personal',personalRouter);
 app.use('/api/support', ticketRouter);
 app.use('/api/folder', folderRouter);
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+// });
 
 app.set('trust proxy', 1);
 
