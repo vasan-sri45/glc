@@ -129,13 +129,13 @@ const generateToken = (res, userId, role) => {
     expiresIn: expiresInSeconds
   });
   const isProd = process.env.NODE_ENV === 'production';
-  const attrs = [
-  'Path=/',
-  'Secure',
-  'SameSite=None',
-  'Partitioned', // CHIPS
-  `Max-Age=${10*24*60*60}`
-].join('; ');
+//   const attrs = [
+//   'Path=/',
+//   'Secure',
+//   'SameSite=None',
+//   'Partitioned', // CHIPS
+//   `Max-Age=${10*24*60*60}`
+// ].join('; ');
 // res.append('Set-Cookie', `token=${token}; ${attrs}`);
 
   res.cookie('token', token, {
