@@ -22,71 +22,21 @@ const Port = process.env.PORT || 4500;
 app.use(express.json());
 app.use(cookieParser());
 
-// const ORIGINS = [
-//   process.env.CLIENT_ORIGIN,           // production frontend (https)
-//   'http://localhost:5173',             // Vite dev
-// ];
 
-app.use(cors({
+const ORIGINS = [process.env.CLIENT_ORIGIN, 'http://localhost:5173'].filter(Boolean); // exact origins [web:23]
+const corsOptions = {
   origin(origin, cb) {
-    const allow = [process.env.CLIENT_ORIGIN,"http://localhost:5173"].filter(Boolean);
-    if (!origin || allow.includes(origin)) return cb(null, true);
-    return cb(new Error(`Not allowed by CORS: ${origin}`));
+    if (!origin) return cb(null, true);                           // non‑browser or same‑origin [web:11]
+    return ORIGINS.includes(origin) ? cb(null, true) : cb(new Error('CORS: origin not allowed')); // reflect allowed origin [web:23]
   },
-  credentials: true,
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
-}));
-// const corsOptions = (cors({
-//   origin(origin, cb) {
-//     // allow same-origin or non-browser requests (no Origin header)
-//     if (!origin) return cb(null, true);
-//     if (allowedOrigins.includes(origin)) return cb(null, true);
-//     return cb(new Error(`Not allowed by CORS: ${origin}`));
-//   },
-//   credentials: true,
-//   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-//   allowedHeaders: ['Content-Type','Authorization'],
-// }));
-// const corsOptions = (cors({
-//   origin(origin, cb) {
-//     // allow same-origin or listed origins
-//     if (!origin || ORIGINS.includes(origin)) return cb(null, true);
-//     return cb(new Error('Not allowed by CORS'));
-//   },
-//   credentials: true,
-//   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-//   allowedHeaders: ['Content-Type','Authorization']
-// }));
-// app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions));
-// app.options('*', cors());
+  credentials: true,                                              // Access-Control-Allow-Credentials: true [web:14]
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],       // preflight allow [web:11]
+  allowedHeaders: ['Content-Type','Authorization'],               // preflight allow [web:11]
+};
+app.use(cors(corsOptions));                                       // add CORS early [web:23]
+// app.options('*', cors(corsOptions));   
 
-// app.use(cors({
-//   origin: allowedOrigins,
-//   credentials: true,
-//   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-//   allowedHeaders: ['Content-Type','Authorization']
-// }));
 
-// app.use(cors({
-//   origin: allowedOrigins,
-//   credentials: true,
-// }));
-
-// app.options('*', cors({
-//   origin: allowedOrigins,
-//   credentials: true,
-// }));
-// app.use(express.static(__dirname,'/uploads'));
-// const __dirname = path.resolve();
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "/client/dist")));
-//   app.get("/{*splat}", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
-//   });
-// }
 
 app.use('/api/auth',authRouter);
 app.use('/api/data',adminRouter);
