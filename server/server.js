@@ -112,6 +112,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Optional explicit preflight handler
 // app.options('*', cors(corsOptions));
+const distDir = path.resolve(__dirname, 'dist');
+app.use(express.static(distDir));
 
 // API routes
 app.use('/api/auth', authRouter);
@@ -125,8 +127,7 @@ app.use('/api/support', ticketRouter);
 app.use('/api/folder', folderRouter);
 
 // Serve SPA static assets (adjust 'dist' if your build folder differs)
-const distDir = path.resolve(__dirname, 'dist');
-app.use(express.static(distDir));
+
 
 // SPA fallback WITHOUT a path string (avoids Express 5 wildcard errors)
 // Only handle GET requests that are not /api/*, then send index.html
