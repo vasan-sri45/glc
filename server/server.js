@@ -91,9 +91,9 @@ const app = express();
 const PORT = process.env.PORT || 4500;
 
 // ESM-safe __dirname/__filename
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-console.log(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// console.log(__filename);
 
 // Core middleware
 app.use(express.json());
@@ -113,8 +113,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Optional explicit preflight handler
 // app.options('*', cors(corsOptions));
-const distDir = path.resolve(__dirname, 'dist');
-app.use(express.static(distDir));
+// const distDir = path.resolve(__dirname, 'dist');
+// app.use(express.static(distDir));
 
 // API routes
 app.use('/api/auth', authRouter);
@@ -132,11 +132,11 @@ app.use('/api/folder', folderRouter);
 
 // SPA fallback WITHOUT a path string (avoids Express 5 wildcard errors)
 // Only handle GET requests that are not /api/*, then send index.html
-app.use((req, res, next) => {
-  if (req.method !== 'GET') return next();
-  if (req.path.startsWith('/api')) return next();
-  return res.sendFile(path.join(distDir, 'index.html'));
-});
+// app.use((req, res, next) => {
+//   if (req.method !== 'GET') return next();
+//   if (req.path.startsWith('/api')) return next();
+//   return res.sendFile(path.join(distDir, 'index.html'));
+// });
 
 // Trust Render proxy for correct protocol/host on redirects/cookies
 app.set('trust proxy', 1);
