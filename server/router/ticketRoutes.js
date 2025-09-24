@@ -12,7 +12,7 @@ import {adminAuth} from '../middleware/adminAuth.js';
 
 const router = express.Router();
 
-router.post('/create',userAuth,adminAuth, createTicket);
+router.post('/create',userAuth, createTicket);
 router.get('/my/ticket',userAuth, getMyTickets);
 router.get('/ticket/:id',userAuth, getTicketById);
 router.put('/ticket/:id',userAuth, updateTicket);
