@@ -34,7 +34,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 });
 
 export const forgotPassword = createAsyncThunk('auth/forgot', async (emailId, thunkAPI) => {
-  try { return await authApi.requestPasswordReset(emailId); }
+  try { return await authApi.forgotPassword(emailId); }
   catch (e) {
     const m = (e.response && e.response.data && e.response.data.message) || e.message || e.toString();
     return thunkAPI.rejectWithValue(m);
@@ -42,7 +42,7 @@ export const forgotPassword = createAsyncThunk('auth/forgot', async (emailId, th
 });
 
 export const resetPasswordThunk = createAsyncThunk('auth/reset', async ({ token, password }, thunkAPI) => {
-  try { return await authApi.submitNewPassword({ token, password }); }
+  try { return await authApi.resetPassword({ token, password }); }
   catch (e) {
     const m = (e.response && e.response.data && e.response.data.message) || e.message || e.toString();
     return thunkAPI.rejectWithValue(m);
