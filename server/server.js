@@ -100,7 +100,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // CORS: allow exact origins only (Render Static Site URL + local dev)
-const ORIGINS = [process.env.CLIENT_ORIGIN, 'http://localhost:5173'].filter(Boolean);
+const ORIGINS = [process.env.CLIENT_ORIGIN, 'http://localhost:5173','https://grienlawchamber.site'].filter(Boolean);
 const corsOptions = {
   origin(origin, cb) {
     if (!origin) return cb(null, true);
